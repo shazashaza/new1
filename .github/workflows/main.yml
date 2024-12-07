@@ -1,0 +1,47 @@
+name: .NET Core CI/CD Pipeline (Windows)
+
+# Trigger the workflow on push to main branch or on pull request
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest  # Use Windows runner
+
+    steps:
+      # Step 1: Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up .NET SDK
+      - name: Set up .NET SDK
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '7.0'  # Specify the .NET version to use
+
+      # Step 3: Restore dependencies
+      - name: Restore dependencies
+        run: dotnet restore
+
+      # Step 4: Build the project
+      - name: Build the project
+        run: dotnet build --configuration Release
+
+      # Step 5: Run unit tests
+      - name: Run unit tests
+        run: dotnet test --configuration Release
+
+      # Step 6: Publish the application (optional for deployment)
+      - name: Publish the application
+        run: dotnet publish --configuration Release --output ./publish
+
+      # Step 7: (Optional) Deploy the application
+      - name: Deploy to Server
+        run: |
+          echo "Deploying .NET application to the server..."
+          # You can add deployment commands here, like copying files to a server or using a cloud service like Azure
