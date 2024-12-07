@@ -1,6 +1,7 @@
 name: .NET Core CI/CD Pipeline (Windows)
 
 # Trigger the workflow on push to main branch or on pull request
+# added commit
 on:
   push:
     branches:
